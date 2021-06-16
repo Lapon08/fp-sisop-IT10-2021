@@ -1,0 +1,275 @@
+2021-06-15 19:25:13::CREATE USER user IDENTIFIED BY password;
+2021-06-15 19:25:36::
+2021-06-15 19:25:49:root:CREATE USER user IDENTIFIED BY password;
+2021-06-15 19:26:06:root:
+2021-06-15 19:26:10:root:CREATE USER user IDENTIFIED BY password;
+2021-06-15 19:26:15:root:
+2021-06-15 19:29:34:root:CREATE USER user IDENTIFIED BY password;
+2021-06-15 19:29:35:root:
+2021-06-15 19:29:36:root:CREATE USER user IDENTIFIED BY password;
+2021-06-15 19:29:37:root:CREATE USER user IDENTIFIED BY password;
+2021-06-15 19:29:38:root:
+2021-06-15 19:29:39:root:CREATE USER user IDENTIFIED BY password;
+2021-06-15 19:29:40:root:CREATE USER user IDENTIFIED BY password;
+2021-06-15 19:29:40:root:
+2021-06-15 19:29:41:root:CREATE USER user IDENTIFIED BY password;
+2021-06-15 19:29:42:root:
+2021-06-15 19:30:15:root:CREATE USER kamu IDENTIFIED BY password;
+2021-06-15 19:35:30:root:
+2021-06-15 19:35:45:root:CREATE USER user IDENTIFIED BY password;
+2021-06-15 19:35:55:root:CREATE USER user IDENTIFIED BY password;
+2021-06-15 19:36:01:root:
+2021-06-15 19:36:08:root:CREATE USER user
+2021-06-15 19:36:08:root:
+2021-06-15 19:36:12:root:CREATE USER user IDENTIFIED
+2021-06-15 19:36:13:root:
+2021-06-15 19:36:15:root:CREATE USER user IDENTIFIED BY 
+2021-06-15 19:36:16:root:
+2021-06-15 19:36:20:root:CREATE USER user IDENTIFIED BY;
+2021-06-15 19:36:21:root:
+2021-06-15 19:36:26:root:CREATE USER ;
+2021-06-15 19:36:27:root:
+2021-06-15 19:38:54:root:CREATE USER user2 IDENTIFIED BY password2;
+2021-06-15 20:09:40::CREATE USER user2
+2021-06-15 20:09:42::CREATE USER user2
+2021-06-15 20:11:37::CREATE USER user3 IDENTIFIED BY password3;
+2021-06-15 20:17:17::CREATE DATABASE toko;
+2021-06-15 20:17:21::CREATE DATABASE toko
+2021-06-15 20:17:23::CREATE DATABASE
+2021-06-15 20:17:27::CREATE DATABASE;
+2021-06-15 20:17:39::CREATE D;
+2021-06-15 20:18:15:root:CREATE DATABASE sisop;
+2021-06-15 20:19:05:root:CREATE DATABASE toko;
+2021-06-15 20:19:28:root:CREATE DATABASE toko;
+2021-06-15 20:21:15::CREATE DATABASE toko;
+2021-06-15 20:22:23:user:CREATE DATABASE toko;
+2021-06-15 20:22:37:user:CREATE DATABASE toko;
+2021-06-15 20:23:10:root:CREATE DATABASE tes;
+2021-06-15 20:24:42:root:CREATE DATABASE tes2;
+2021-06-15 20:26:15:root:CREATE DATABASE toko
+2021-06-15 20:26:17:root:CREATE DATABASE 
+2021-06-15 20:26:23:root:CREATE DATABASE tes4;
+2021-06-15 20:27:03:root:CREATE DATABASE toko;
+2021-06-15 20:27:51:root:CREATE DATABASE toko2;
+2021-06-15 20:36:02:user:GRANT PERMISSION toko INTO user2;
+2021-06-15 20:36:53:user:
+2021-06-15 20:37:09:user:GRANT PERMISSION toko INTO user2;
+2021-06-15 20:37:12:user:GRANT PERMISSION toko INTO 
+2021-06-15 20:37:16:user:GRANT PERMISSION toko 
+2021-06-15 20:37:19:user:GRANT PERMISSION toko ;
+2021-06-15 20:37:29:root:GRANT PERMISSION toko INTO user2;
+2021-06-15 20:39:29:root:GRANT PERMISSION toko INTO user2;
+2021-06-15 20:46:57:user:USE toko;
+2021-06-15 20:47:07:user:USE tes;
+2021-06-15 20:54:48:user:CREATE TABLE user (nama string, alamat string, kunjungan int);
+2021-06-15 20:58:21:user:CREATE TABLE user (nama string, alamat string, kunjungan int);
+2021-06-15 20:58:27:user:USE toko;
+2021-06-15 20:58:30:user:CREATE TABLE user (nama string, alamat string, kunjungan int);
+2021-06-15 20:59:12:user:CREATE TABLE user (nama string, alamat string,
+2021-06-15 20:59:15:user:CREATE TABLE user (nama strin
+2021-06-15 20:59:19:user:CREATE TABLE user 
+2021-06-15 20:59:22:user:CREATE TABLE
+2021-06-15 21:00:03:root:CREATE TABLE user (nama string, alamat string, shift int);
+2021-06-15 21:00:06:root:USE toko;
+2021-06-15 21:00:07:root:CREATE TABLE user (nama string, alamat string, shift int);
+2021-06-15 21:04:09:root:CREATE TABLE user (nama string, alamat string, shift int);
+2021-06-15 21:04:10:root:CREATE TABLE user (nama string, alamat string, shift int);
+2021-06-15 21:04:11:root:CREATE TABLE user (nama string, alamat string, shift int);
+2021-06-15 21:04:11:root:CREATE TABLE user (nama string, alamat string, shift int);
+2021-06-15 21:05:36:root:CREATE TABLE user (nama string, alamat string, kunjungan int);
+2021-06-15 21:05:41:root:USE toko;
+2021-06-15 21:05:42:root:CREATE TABLE user (nama string, alamat string, kunjungan int);
+2021-06-15 21:05:57:root:CREATE TABLE user (nama string, alamat string, kunjungan int);
+2021-06-15 21:08:03:root:USE toko;
+2021-06-15 21:08:05:root:CREATE TABLE user (nama string, alamat string, kunjungan int);
+2021-06-15 21:08:09:root:CREATE TABLE user (nama string, alamat string, kunjungan int);
+2021-06-15 21:08:36:root:CREATE TABLE user (nama string, alamat string, kunjungan int);
+2021-06-15 21:08:39:root:USE toko;
+2021-06-15 21:08:40:root:CREATE TABLE user (nama string, alamat string, kunjungan int);
+2021-06-15 21:09:42:root:USE toko;
+2021-06-15 21:09:43:root:closedir(dir);
+2021-06-15 21:09:46:root:closedir(dir);
+2021-06-15 21:09:46:root:closedir(dir);
+2021-06-15 21:09:47:root:closedir(dir);
+2021-06-15 21:09:48:root:closedir(dir);
+2021-06-15 21:09:48:root:closedir(dir);
+2021-06-15 21:09:49:root:closedir(dir);
+2021-06-15 21:09:50:root:closedir(dir);
+2021-06-15 21:09:51:root:closedir(dir);
+2021-06-15 21:09:52:root:closedir(dir);
+2021-06-15 21:10:36:root:closedir(dir);
+2021-06-15 21:10:37:root:closedir(dir);
+2021-06-15 21:11:00:root:closedir(dir);
+2021-06-15 21:11:01:root:closedir(dir);
+2021-06-15 21:11:02:root:closedir(dir);
+2021-06-15 21:11:05:root:USE toko;
+2021-06-15 21:11:07:root:closedir(dir);
+2021-06-15 21:11:08:root:closedir(dir);
+2021-06-15 21:11:09:root:closedir(dir);
+2021-06-15 21:12:49:root:closedir(dir);
+2021-06-15 21:12:54:root:USE toko;
+2021-06-15 21:12:56:root:closedir(dir);
+2021-06-15 21:12:57:root:closedir(dir);
+2021-06-15 21:13:25:root:CREATE TABLE user (nama string, alamat string, shift int);
+2021-06-15 21:13:32:root:CREATE TABLE user (nama string, alamat string, shift int);
+2021-06-15 21:13:33:root:CREATE TABLE user (nama string, alamat string, shift int);
+2021-06-15 21:13:34:root:CREATE TABLE user (nama string, alamat string, shift int);
+2021-06-15 21:14:09:root:CREATE TABLE user (nama string, alamat string, shift int);
+2021-06-15 21:14:13:root:USE toko;
+2021-06-15 21:14:14:root:CREATE TABLE user (nama string, alamat string, shift int);
+2021-06-15 21:14:19:root:CREATE TABLE user (nama string, alamat string, shift int);
+2021-06-15 21:14:32:root:CREATE TABLE admin (nama string, alamat string, shift int);
+2021-06-15 21:17:47:root:DROP DATABASE tes;
+2021-06-15 21:17:49:root:
+2021-06-15 21:19:14:root:DROP DATABASE tes;
+2021-06-15 21:19:19:root:DROP DATABASE tes;
+2021-06-15 21:19:23:root:DROP DATABASE tes;
+2021-06-15 21:19:24:root:DROP DATABASE tes;
+2021-06-15 21:19:25:root:DROP DATABASE tes;
+2021-06-15 21:19:26:root:DROP DATABASE tes;
+2021-06-15 21:19:27:root:DROP DATABASE tes;
+2021-06-15 21:21:14:root:DROP DATABASE tes;
+2021-06-15 21:21:17:root:DROP DATABASE tes;
+2021-06-15 21:21:18:root:DROP DATABASE tes;
+2021-06-15 21:21:19:root:DROP DATABASE tes;
+2021-06-15 21:21:28:root:DROP DATABASE tes
+2021-06-15 21:24:59:root:DROP TABLE table1;
+2021-06-15 21:25:01:root:DROP TABLE table1;
+2021-06-15 21:25:04:root:USE toko;
+2021-06-15 21:25:09:root:DROP TABLE table1;
+2021-06-15 21:25:19:root:DROP TABLE admin;
+2021-06-15 21:25:54:root:DROP TABLE user;
+2021-06-15 21:27:23:root:USE toko;
+2021-06-15 21:27:32:root:DROP TABLE admin;
+2021-06-15 21:28:06:root:CREATE TABLE admin (nama string, alamat string, shift int);
+2021-06-15 21:28:10:root:USE toko;
+2021-06-15 21:28:11:root:CREATE TABLE admin (nama string, alamat string, shift int);
+2021-06-15 21:28:20:root:CREATE TABLE admin (nama string, alamat string, shift int);
+2021-06-15 21:28:29:root:DROP admin;
+2021-06-15 21:29:00:root:DROP TABLE admin;
+2021-06-15 21:29:25:root:USE toko;
+2021-06-15 21:29:34:root:DROP TABLE
+2021-06-15 21:29:42:root:DROP TABLE;
+2021-06-15 21:31:19:root:USE hello;
+2021-06-15 21:45:52:root:INSERT INTO user ('value1', 'value2', 4);
+2021-06-15 21:45:58:root:USE toko;
+2021-06-15 21:46:01:root:INSERT INTO user ('value1', 'value2', 4);
+2021-06-15 21:46:40:root:INSERT INTO user ('value1', 'value2', 4);
+2021-06-15 21:47:13:root:DROP COLUMN nama FROM user;
+2021-06-15 21:47:36:root:DROP COLUMN alamat FROM user;
+2021-06-15 21:47:53:root:DROP COLUMN nama FROM user;
+2021-06-15 21:47:57:root:USE toko;
+2021-06-15 21:48:01:root:DROP COLUMN nama FROM user;
+2021-06-15 21:49:30:root:DROP COLUMN kunjungan FROM user;
+2021-06-15 21:49:34:root:USE toko;
+2021-06-15 21:49:40:root:DROP COLUMN kunjungan FROM user;
+2021-06-15 22:01:05:root:USE toko;
+2021-06-15 22:01:41:root:USE toko;
+2021-06-15 22:02:03:root:DROP COLUMN alamat FROM user;
+2021-06-15 22:03:01:root:DROP COLUMN nama FROM user;
+2021-06-15 22:03:29:root:DROP COLUMN nama FROM 
+2021-06-15 22:03:32:root:DROP COLUMN nama
+2021-06-15 22:03:35:root:DROP COLUMN
+2021-06-15 22:03:38:root:DROP COLUMN nama FROM 
+2021-06-15 22:03:46:root:DROP COLUMN nama FROM sasa;
+2021-06-15 22:04:56:root:DROP COLUMN aaa FROM user;
+2021-06-15 22:15:25:root:DROP COLUMN aaa FROM user; 
+2021-06-15 22:15:39:root:USE toko;
+2021-06-15 22:15:41:root:DROP COLUMN aaa FROM user; 
+2021-06-15 22:15:43:root:DROP COLUMN aaa FROM user; 
+2021-06-15 22:15:44:root:DROP COLUMN aaa FROM user; 
+2021-06-15 22:16:42:root:DROP COLUMN name FROM aaa;
+2021-06-15 22:24:26:user:DROP COLUMN nama FROM user;
+2021-06-15 22:24:32:user:USE toko;
+2021-06-15 22:24:45:user:USE toko;
+2021-06-15 22:25:18:user:USE toko;
+2021-06-15 22:25:27:root:USE toko;
+2021-06-15 22:26:22:user:CREATE DATABASE kamu;
+2021-06-15 22:26:51:user:CREATE DATABASE aa;
+2021-06-15 22:27:53:user:CREATE DATABASE aku;
+2021-06-15 22:32:42:root:CREATE DATABASE aku;
+2021-06-15 22:32:50:root:CREATE DATABASE yuhu;
+2021-06-16 08:04:55:user:USE toko;
+2021-06-16 08:05:40:user:USE toko;
+2021-06-16 08:05:52:root:USE toko;
+2021-06-16 08:07:57:user:
+2021-06-16 08:08:03:user:USE toko;
+2021-06-16 08:10:02:user:
+2021-06-16 08:10:06:user:USE toko;
+2021-06-16 08:10:47:user:DROP COLUMN name FROM user;
+2021-06-16 08:11:27:user:USE toko;
+2021-06-16 08:12:47:user:USE toko;
+2021-06-16 08:14:37:user:CREATE DATABASE toko;
+2021-06-16 08:14:41:user:USE toko;
+2021-06-16 08:15:46:user:CREATE TABLE user (nama string, alamat string, kunjungan int);
+2021-06-16 08:16:06:user:DROP COLUMN nama FROM user;
+2021-06-16 08:17:23:user:CREATE DATABASE toko;
+2021-06-16 08:17:46:user:CREATE TABLE user (nama string, alamat string, kunjungan int);
+2021-06-16 08:17:53:user:USE toko;
+2021-06-16 08:17:55:user:CREATE TABLE user (nama string, alamat string, kunjungan int);
+2021-06-16 08:18:43:user:INSERT INTO user ('value1', 'value2', 4);
+2021-06-16 08:18:57:user:DROP COLUMN nama FROM user;
+2021-06-16 08:27:37:user:DROP COLUMN yuhu FROM user;
+2021-06-16 08:27:42:user:USE toko;
+2021-06-16 08:27:48:user:DROP COLUMN yuhu FROM user;
+2021-06-16 08:28:04:user:DROP COLUMN name FROM aaa;
+2021-06-16 08:28:29:user:DROP COLUMN nama FROM aaa;
+2021-06-16 08:28:43:user:DROP COLUMN nama FROM user;
+2021-06-16 08:29:08:user:DROP COLUMN nama FROM 
+2021-06-16 08:29:11:user:DROP COLUMN
+2021-06-16 08:29:13:user:DROP COLUMN nama
+2021-06-16 08:35:26:user:USE toko;
+2021-06-16 08:36:20:user:INSERT INTO user ('Dava', 'Surabaya', 4);
+2021-06-16 08:36:24:user:INSERT INTO user ('Dava', 'Surabaya', 4);
+2021-06-16 08:36:58:user:DELETE FROM user WHERE nama='Dava';
+2021-06-16 08:37:38:user:DELETE FROM user WHERE alamat='Surabaya';
+2021-06-16 08:38:06:user:DELETE FROM user WHERE kunjungan=4;
+2021-06-16 08:38:20:user:DELETE FROM user WHERE kunjungan=4;
+2021-06-16 08:39:53:user:                        strcpy(message, "Table Not Found\n");
+2021-06-16 08:40:24:user:DELETE FROM user WHERE kunjunga=4;
+2021-06-16 08:40:36:user:DELETE FROM user WHERE kunjungan=4;
+2021-06-16 08:40:59:user:DELETE FROM user WHERE kunjunga=4;
+2021-06-16 08:41:52:user:DELETE FROM user WHERE kunjungaaaaan=4;
+2021-06-16 08:43:53:user:DELETE FROM user WHERE kunjungaaaaaaaaaaaaaaaaaaaa=4
+2021-06-16 08:43:58:user:USE toko;
+2021-06-16 08:44:05:user:DELETE FROM user WHERE kunjungaaaaaaaaaaaaaaaaaaaa=4
+2021-06-16 08:44:28:user:DELETE FROM hore WHERE user=4
+2021-06-16 08:44:36:user:DELETE FROM user WHERE kunjungaaaaaaaaaaaaaaaaaaaa=4;
+2021-06-16 08:44:46:user:DELETE FROM hore WHERE user=4;
+2021-06-16 08:45:16:user:DELETE FROM user WHERE kunjunga=4;
+2021-06-16 08:45:38:user:DELETE FROM user WHERE kunjungan=4;
+2021-06-16 08:47:32:user:DELETE FROM user WHERE kunjungan=4;
+2021-06-16 08:47:37:user:USE toko;
+2021-06-16 08:47:38:user:DELETE FROM user WHERE kunjungan=4;
+2021-06-16 08:58:42:user:CREATE DATABASE toko;
+2021-06-16 08:59:03:user:DROP DATABASE toko;
+2021-06-16 08:59:44:user:CREATE DATABASE toko;
+2021-06-16 08:59:52:user:CREATE TABLE user (nama string, alamat string, kunjungan int);
+2021-06-16 08:59:56:user:USE toko;
+2021-06-16 08:59:57:user:CREATE TABLE user (nama string, alamat string, kunjungan int);
+2021-06-16 09:00:11:user:INSERT INTO user ('Dava', 'Surabaya', 4);
+2021-06-16 09:00:19:user:INSERT INTO user ('Dava', 'Surabaya', 4);
+2021-06-16 09:00:27:user:INSERT INTO aaa ('Dava', 'Surabaya', 4);
+2021-06-16 09:03:27:user:            char fullpath[200];
+2021-06-16 09:03:29:user:            sprintf(fullpath,"databases/%s",SESSION_DATABASE)
+2021-06-16 09:03:33:user:INSERT INTO aaa ('Dava', 'Surabaya', 4);
+2021-06-16 09:03:37:user:USE toko;
+2021-06-16 09:03:38:user:INSERT INTO aaa ('Dava', 'Surabaya', 4);
+2021-06-16 09:05:12:user:INSERT INTO aaa ('Dava', 'Surabaya', 4, 4);
+2021-06-16 09:05:36:user:USE toko;
+2021-06-16 09:05:44:user:INSERT INTO user ('Dava', 'Surabaya', 4, 4);
+2021-06-16 09:06:19:user:DELETE FROM user WHERE kunjungan=5;
+2021-06-16 09:11:38:user:exit
+2021-06-16 09:16:07:user:UPDATE user SET kunjungan=5;
+2021-06-16 09:16:11:user:USE toko;
+2021-06-16 09:16:12:user:UPDATE user SET kunjungan=5;
+2021-06-16 09:16:38:user:UPDATE user SET kunjungan=5;
+2021-06-16 09:17:08:user:USE toko;
+2021-06-16 09:17:10:user:UPDATE user SET kunjungan=5;
+2021-06-16 09:17:51:user:UPDATE user SET alamat='Tulungagung' WHERE kunjungan=5;
+2021-06-16 09:18:26:user:UPDATE user SET kunjungan=
+2021-06-16 09:18:30:user:UPDATE user S
+2021-06-16 09:18:37:user:UPDATE user SET alamat='Tulungagung' WHERE kunj
+2021-06-16 09:19:05:user:DELETE FROM user WHERE kunjungan=5;
+2021-06-16 09:22:33:user:USE toko;
+2021-06-16 09:22:34:user:UPDATE user SET nama='Naufal' WHERE kunjungan=5;
