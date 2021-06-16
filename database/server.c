@@ -19,6 +19,13 @@ int count_row;
 int count_data_exist;
 char message[2048] = {0};
 
+void reset()
+{
+    memset(data_exist, 0, sizeof(data_exist));
+    memset(position_column, 0, sizeof(position_column));
+    memset(selectColumnName, 0, sizeof(selectColumnName[0][0]) * 256 * 256);
+}
+
 void countColumn()
 {
     char tmp[1024];
@@ -27,7 +34,7 @@ void countColumn()
     char *token = strtok(tmp, "\t");
     while (token != NULL)
     {
-        printf("%d -> %s\n", i, token);
+        //printf("%d -> %s\n", i, token);
         token = strtok(NULL, "\t");
         i++;
     }
@@ -38,7 +45,7 @@ void readDatabase(char *database, char *table)
     FILE *fptr;
     char fullpath[1024] = {0};
     sprintf(fullpath, "databases/%s/%s", database, table);
-    printf("\n%s", fullpath);
+    //printf("\n%s", fullpath);
     fptr = fopen(fullpath, "r+");
     if (fptr == NULL)
     {
@@ -125,8 +132,8 @@ int checkDataExist(char *data, char *path, int column)
             char tmp[1024] = {0};
             strcpy(tmp, line);
             char *token = strtok(tmp, "\t");
-            // printf("TOKEN ->%s\n", token);
-            // printf("LINE ->%s\n", line);
+            // //printf("TOKEN ->%s\n", token);
+            // //printf("LINE ->%s\n", line);
             for (int i = 0; i < column; i++)
             {
                 token = strtok(NULL, "\t");
@@ -138,12 +145,12 @@ int checkDataExist(char *data, char *path, int column)
             strcpy(datatemp, line);
         }
 
-        //printf("%s -> %s\n", datatemp, data);
-        //printf("-----------------------\n");
+        ////printf("%s -> %s\n", datatemp, data);
+        ////printf("-----------------------\n");
 
         if (strcmp(datatemp, data) == 0)
         {
-            //printf("KETEMU\n");
+            ////printf("KETEMU\n");
             check = 1;
             // posisi data exist
             data_exist[j] = i - 1;
@@ -153,10 +160,10 @@ int checkDataExist(char *data, char *path, int column)
     }
     // termasuk 0
     count_data_exist = j;
-    //printf("%d\n", count_data_exist);
+    ////printf("%d\n", count_data_exist);
     // for (int i = 0; i < count_data_exist; i++)
     // {
-    //     printf("data exist-> %d\n", data_exist[i]);
+    //     //printf("data exist-> %d\n", data_exist[i]);
     // }
 
     fclose(fptr);
@@ -184,8 +191,8 @@ int checkUser(char *username, char *password)
         sprintf(kredensial, "%s\t%s\n", username, password);
         while (fgets(line, sizeof(line) - 1, fptr))
         {
-            // printf("%s%s",kredensial,line);
-            // printf("-----------------------\n");
+            // //printf("%s%s",kredensial,line);
+            // //printf("-----------------------\n");
             if (strcmp(kredensial, line) == 0)
             {
                 strcpy(SESSION_USERNAME, username);
@@ -292,7 +299,7 @@ int checkCommandAddUser(char *command, char *username, char *password)
         return 0;
     }
     // DEBBUG
-    // printf("%s\t%s", username, password);
+    // //printf("%s\t%s", username, password);
     return 1;
 }
 void createDatabase(char *database)
@@ -350,7 +357,7 @@ int checkCommandCreateDatabase(char *command, char *database)
         return 0;
     }
     strncpy(database, token, strlen(token) - 1);
-    // printf("DEBUG ->%s ini database\n", database);
+    // //printf("DEBUG ->%s ini database\n", database);
     return 1;
 }
 
@@ -434,7 +441,7 @@ int checkCommandGrantDatabase(char *command, char *username, char *database)
         return 0;
     }
     strncpy(username, token, strlen(token) - 1);
-    // printf("DEBUG -> %s\t%s\n", username, database);
+    // //printf("DEBUG -> %s\t%s\n", username, database);
     return 1;
 }
 
@@ -470,7 +477,7 @@ void useDatabase(char *database)
     char data[300] = {0};
     sprintf(data, "%s\t%s\n", SESSION_USERNAME, database);
     int check = checkDataExist(data, "databases/init/permission.table", 69);
-    // printf("data -> %s", data);
+    // //printf("data -> %s", data);
     if (check)
     {
         strcpy(SESSION_DATABASE, database);
@@ -494,9 +501,9 @@ int checkCommandCreateTable(char *input, char *table, char *column_name)
         return 0;
     }
     char *token = strtok(input, " ");
-    printf("1 %s\n", token);
+    //printf("1 %s\n", token);
     token = strtok(NULL, " ");
-    printf("2 %s\n", token);
+    //printf("2 %s\n", token);
     if (token == NULL)
     {
         strcpy(message, "Invalid Syntax\n");
@@ -505,7 +512,7 @@ int checkCommandCreateTable(char *input, char *table, char *column_name)
     }
     token = strtok(NULL, " ");
     strcpy(table, token);
-    printf("3 %s\n", token);
+    //printf("3 %s\n", token);
     if (token == NULL)
     {
         strcpy(message, "Invalid Syntax\n");
@@ -513,7 +520,7 @@ int checkCommandCreateTable(char *input, char *table, char *column_name)
         return 0;
     }
     token = strtok(NULL, "(");
-    printf("4 %s\n", token);
+    //printf("4 %s\n", token);
     if (token == NULL)
     {
         strcpy(message, "Invalid Syntax\n");
@@ -529,7 +536,7 @@ int checkCommandCreateTable(char *input, char *table, char *column_name)
     {
         strcpy(column, " ");
         strncat(column, token, strlen(token) - 2);
-        printf("%s\n", column);
+        //printf("%s\n", column);
         int j = 0;
         char *token2 = strtok(column, " ");
         j++;
@@ -539,7 +546,7 @@ int checkCommandCreateTable(char *input, char *table, char *column_name)
 
             return 0;
         }
-        printf("%s\n", token2);
+        //printf("%s\n", token2);
         strcat(column_name, token2);
         strcat(column_name, "|");
         token2 = strtok(NULL, " ");
@@ -564,7 +571,7 @@ int checkCommandCreateTable(char *input, char *table, char *column_name)
                 strcat(column_name, "|");
             }
 
-            printf("%s\n", token2);
+            //printf("%s\n", token2);
             token2 = strtok(NULL, " ");
             j++;
         }
@@ -576,7 +583,7 @@ int checkCommandCreateTable(char *input, char *table, char *column_name)
         }
 
         column_name[strlen(column_name) - 1] = 0;
-        // printf("\n%s-----%d", column_name, j);
+        // //printf("\n%s-----%d", column_name, j);
     }
 
     // kolom1|string\tkolom2|int\tkolom3|string\tkolom4|int
@@ -587,7 +594,7 @@ void createTable(char *table, char *column_name)
     FILE *fptr;
     char fullpath[500];
     sprintf(fullpath, "databases/%s/%s", SESSION_DATABASE, table);
-    // printf("%s-----------", fullpath);
+    // //printf("%s-----------", fullpath);
     fptr = fopen(fullpath, "a+");
     if (fptr == NULL)
     {
@@ -675,10 +682,10 @@ int readTableOfDatabase(char *fullpath, char *table)
 
         while ((ent = readdir(dir)) != NULL)
         {
-            // printf("%s ->%s", ent->d_name, table);
+            // //printf("%s ->%s", ent->d_name, table);
             if (strcmp(ent->d_name, table) == 0)
             {
-                // printf("%s ->%s", ent->d_name, table);
+                // //printf("%s ->%s", ent->d_name, table);
                 closedir(dir);
                 return 1;
             }
@@ -691,7 +698,7 @@ void dropTable(char *table)
 {
     char fullpath[500] = {0};
     sprintf(fullpath, "databases/%s/%s", SESSION_DATABASE, table);
-    // printf("%s\n",fullpath);
+    // //printf("%s\n",fullpath);
     if (remove(fullpath) == 0)
         strcpy(message, "Success\n");
 
@@ -769,7 +776,7 @@ void dropColumn(int position)
     for (int i = 0; i < count_row; i++)
     {
         strcpy(temp[i], data_in_table[i]);
-        // printf("TEMP = > %s\n", temp[i]);
+        // //printf("TEMP = > %s\n", temp[i]);
     }
 
     for (int i = 0; i < count_row; i++)
@@ -779,10 +786,10 @@ void dropColumn(int position)
         int count = 0;
         while (count < count_column)
         {
-            // printf("count %d ; position %d\n", count, position);
+            // //printf("count %d ; position %d\n", count, position);
             if (count == position)
             {
-                // printf("token -> %s\n", token);
+                // //printf("token -> %s\n", token);
                 token = strtok(NULL, "\t");
                 count++;
                 continue;
@@ -795,7 +802,7 @@ void dropColumn(int position)
                 {
                     strcat(hasil[i], "\t");
                 }
-                // printf("token -> %s\n", token);
+                // //printf("token -> %s\n", token);
                 token = strtok(NULL, "\t");
                 count++;
             }
@@ -803,11 +810,11 @@ void dropColumn(int position)
 
         if (!strstr(hasil[i], "\n"))
         {
-            printf("masuk");
+            //printf("masuk");
             strncpy(hasil[i], hasil[i], strlen(hasil[i]) - 1);
             strcat(hasil[i], "\n");
         }
-        printf("Hasil -> %s ---- %d", hasil[i], i);
+        //printf("Hasil -> %s ---- %d", hasil[i], i);
     }
     for (int i = 0; i < count_row; i++)
     {
@@ -827,10 +834,10 @@ void dropColumn2(int position)
     int count = 0;
     while (count < count_column)
     {
-        // printf("count %d ; position %d\n", count, position);
+        // //printf("count %d ; position %d\n", count, position);
         if (count == position)
         {
-            // printf("token -> %s\n", token);
+            // //printf("token -> %s\n", token);
             token = strtok(NULL, "\t");
             count++;
             continue;
@@ -843,7 +850,7 @@ void dropColumn2(int position)
             {
                 strcat(hasil, "\t");
             }
-            // printf("token -> %s\n", token);
+            // //printf("token -> %s\n", token);
             token = strtok(NULL, "\t");
             count++;
         }
@@ -851,7 +858,7 @@ void dropColumn2(int position)
 
     if (!strstr(hasil, "\n"))
     {
-        printf("masuk");
+        //printf("masuk");
         strncpy(hasil, hasil, strlen(hasil) - 1);
         strcat(hasil, "\n");
     }
@@ -871,10 +878,10 @@ int checkCommandInsert(char *input, char *column_name, char *table, int *total)
     }
     // INSERT
     char *token = strtok(input, " ");
-    printf("1 %s\n", token);
+    //printf("1 %s\n", token);
     // INTO
     token = strtok(NULL, " ");
-    printf("2 %s\n", token);
+    //printf("2 %s\n", token);
     if (token == NULL)
     {
         strcpy(message, "Invalid Syntax\n");
@@ -884,7 +891,7 @@ int checkCommandInsert(char *input, char *column_name, char *table, int *total)
     // [TABLE]
     token = strtok(NULL, " ");
     strcpy(table, token);
-    printf("3 %s\n", token);
+    //printf("3 %s\n", token);
     if (token == NULL)
     {
         strcpy(message, "Invalid Syntax\n");
@@ -899,15 +906,15 @@ int checkCommandInsert(char *input, char *column_name, char *table, int *total)
     }
 
     token = strtok(NULL, "(");
-    printf("4 %s\n", token);
+    //printf("4 %s\n", token);
     if (strcmp(token, ");") == 0)
     {
-        printf("Your Column Is Empty");
+        //printf("Your Column Is Empty");
         return 0;
     }
     strcpy(kolom, " ");
     strncat(kolom, token, strlen(token) - 2);
-    printf("KOLOM - >%s\n", kolom);
+    //printf("KOLOM - >%s\n", kolom);
     // [Kolom]
     char *token2 = strtok(kolom, " ");
     j++;
@@ -953,7 +960,7 @@ int checkCommandInsert(char *input, char *column_name, char *table, int *total)
 
         return 0;
     }
-    //printf("----------%s----------%d----------", hasil, j);
+    ////printf("----------%s----------%d----------", hasil, j);
     return 1;
 }
 
@@ -986,10 +993,10 @@ int checkCommandDelete(char *input, char *table, char *column_name, char *data_c
     }
     // DELETE
     char *token = strtok(input, " ");
-    printf("1 %s\n", token);
+    ////printf("1 %s\n", token);
     // FROM
     token = strtok(NULL, " ");
-    //printf("2 %s\n", token);
+    ////printf("2 %s\n", token);
     if (token == NULL)
     {
         strcpy(message, "Invalid Syntax\n");
@@ -1005,10 +1012,10 @@ int checkCommandDelete(char *input, char *table, char *column_name, char *data_c
         return 0;
     }
     strcpy(table, token);
-    //printf("3 %s\n", token);
+    ////printf("3 %s\n", token);
 
     token = strtok(NULL, " ");
-    //printf("4 %s\n", token);
+    ////printf("4 %s\n", token);
     if (token == NULL)
     {
         table[strlen(table) - 1] = '\0';
@@ -1020,7 +1027,7 @@ int checkCommandDelete(char *input, char *table, char *column_name, char *data_c
         // WHERE
         // DELETE FROM table1 WHERE kolom1=’value1’;
         token = strtok(NULL, " ");
-        //printf("5 %s\n", token);
+        ////printf("5 %s\n", token);
         if (token == NULL)
         {
             strcpy(message, "Invalid Syntax\n");
@@ -1031,7 +1038,7 @@ int checkCommandDelete(char *input, char *table, char *column_name, char *data_c
         char tmp[200];
         strcpy(tmp, token);
         char *token2 = strtok(tmp, "=");
-        //printf("6 %s\n", token2);
+        ////printf("6 %s\n", token2);
         if (token2 == NULL)
         {
             strcpy(message, "Invalid Syntax\n");
@@ -1048,12 +1055,12 @@ int checkCommandDelete(char *input, char *table, char *column_name, char *data_c
             }
 
             strncpy(data_column, token2, strlen(token2) - 2);
-            //printf("7 %s\n", data_column);
+            ////printf("7 %s\n", data_column);
         }
         else
         {
             strncpy(data_column, token2, strlen(token2) - 1);
-            //printf("7 %s\n", data_column);
+            ////printf("7 %s\n", data_column);
         }
     }
 
@@ -1117,7 +1124,7 @@ int checkCommandUpdate(char *input, char *table, char *data_column, char *column
     }
     // UPDATE
     char *token = strtok(input, " ");
-    printf("1 %s\n", token);
+    ////printf("1 %s\n", token);
     // [TABLE]
     token = strtok(NULL, " ");
     if (token == NULL)
@@ -1127,10 +1134,10 @@ int checkCommandUpdate(char *input, char *table, char *data_column, char *column
         return 0;
     }
     strcpy(table, token);
-    printf("2 %s\n", token);
+    ////printf("2 %s\n", token);
     // SET
     token = strtok(NULL, " ");
-    printf("3 %s\n", token);
+    ////printf("3 %s\n", token);
     if (token == NULL)
     {
         strcpy(message, "Invalid Syntax\n");
@@ -1143,17 +1150,17 @@ int checkCommandUpdate(char *input, char *table, char *data_column, char *column
     char temp2[1024] = {0};
     strcpy(temp, token);
 
-    printf("4 %s\n", token);
+    //printf("4 %s\n", token);
     // WHERE
     token = strtok(NULL, " ");
-    printf("5 %s\n", token);
+    ////printf("5 %s\n", token);
     if (token == NULL)
     {
         *mode = 1;
         // WHERE
         // KOLOM
         char *token2 = strtok(temp, "=");
-        printf("6 %s\n", token2);
+        ////printf("6 %s\n", token2);
         if (token2 == NULL)
         {
             strcpy(message, "Invalid Syntax\n");
@@ -1170,21 +1177,21 @@ int checkCommandUpdate(char *input, char *table, char *data_column, char *column
             }
 
             strncpy(data_column, token2, strlen(token2) - 2);
-            printf("7 %s\n", data_column);
+            ////printf("7 %s\n", data_column);
         }
         else
         {
             strncpy(data_column, token2, strlen(token2) - 1);
-            printf("7 %s\n", data_column);
+            ////printf("7 %s\n", data_column);
         }
         return 1;
     }
     *mode = 2;
     token = strtok(NULL, " ");
     strcpy(temp2, token);
-    printf("6 %s\n", token);
+    ////printf("6 %s\n", token);
     char *token2 = strtok(temp, "=");
-    printf("6 %s\n", token2);
+    ////printf("6 %s\n", token2);
     if (token2 == NULL)
     {
         strcpy(message, "Invalid Syntax\n");
@@ -1201,17 +1208,17 @@ int checkCommandUpdate(char *input, char *table, char *data_column, char *column
         }
 
         strncpy(data_column, token2, strlen(token2) - 1);
-        printf("7 %s\n", data_column);
+        ////printf("7 %s\n", data_column);
     }
     else
     {
         strncpy(data_column, token2, strlen(token2));
-        printf("7 %s\n", data_column);
+        ////printf("7 %s\n", data_column);
     }
     char tmp[200];
     strcpy(tmp, token);
     char *token3 = strtok(tmp, "=");
-    printf("6 %s\n", token3);
+    ////printf("6 %s\n", token3);
     if (token3 == NULL)
     {
         strcpy(message, "Invalid Syntax\n");
@@ -1228,12 +1235,12 @@ int checkCommandUpdate(char *input, char *table, char *data_column, char *column
         }
 
         strncpy(search_data, token3, strlen(token3) - 2);
-        printf("7 %s\n", search_data);
+        ////printf("7 %s\n", search_data);
     }
     else
     {
         strncpy(search_data, token3, strlen(token3) - 1);
-        printf("7 %s\n", search_data);
+        ////printf("7 %s\n", search_data);
     }
     // WHERE
     //UPDATE table1 SET kolom1='new_value1' WHERE;’;
@@ -1250,7 +1257,7 @@ void updateData(int mode, int position, char *data_column, char *search_column, 
         for (int i = 0; i < count_row; i++)
         {
             strncpy(tmp[i], data_in_table[i], strlen(data_in_table[i]) - 1);
-            //printf("%s\n", tmp[i]);
+            ////printf("%s\n", tmp[i]);
         }
         for (int i = 0; i < count_row; i++)
         {
@@ -1282,7 +1289,7 @@ void updateData(int mode, int position, char *data_column, char *search_column, 
         for (int i = 0; i < count_row; i++)
         {
             strcpy(data_in_table[i], hasil[i]);
-            //printf("HASIL -> %s", data_in_table[i]);
+            ////printf("HASIL -> %s", data_in_table[i]);
         }
         strcpy(message, "Success\n");
     }
@@ -1293,7 +1300,7 @@ void updateData(int mode, int position, char *data_column, char *search_column, 
         for (int i = 0; i < count_row; i++)
         {
             strncpy(tmp[i], data_in_table[i], strlen(data_in_table[i]));
-            printf("%s\n", tmp[i]);
+            // //printf("%s\n", tmp[i]);
         }
         int j = 0;
         for (int i = 0; i < count_row; i++)
@@ -1336,7 +1343,7 @@ void updateData(int mode, int position, char *data_column, char *search_column, 
         for (int i = 0; i < count_row; i++)
         {
             strcpy(data_in_table[i], hasil[i]);
-            printf("HASIL -> %s", data_in_table[i]);
+            // //printf("HASIL -> %s", data_in_table[i]);
         }
     }
 }
@@ -1354,7 +1361,7 @@ int checkCommandSelect(char *input, char *table, char *search_column, char *sear
     {
         // SELECT
         char *token = strtok(input, " ");
-        printf("1 %s\n", token);
+        ////printf("1 %s\n", token);
 
         token = strtok(NULL, " ");
         if (token == NULL)
@@ -1367,7 +1374,7 @@ int checkCommandSelect(char *input, char *table, char *search_column, char *sear
         {
             return 0;
         }
-        printf("2 %s\n", token);
+        ////printf("2 %s\n", token);
         // FROM
         token = strtok(NULL, " ");
         if (token == NULL)
@@ -1377,7 +1384,7 @@ int checkCommandSelect(char *input, char *table, char *search_column, char *sear
             return 0;
         }
         // [table]
-        printf("3 %s\n", token);
+        ////printf("3 %s\n", token);
         token = strtok(NULL, " ");
         if (token == NULL)
         {
@@ -1394,7 +1401,7 @@ int checkCommandSelect(char *input, char *table, char *search_column, char *sear
             strncpy(table, token, strlen(token));
         }
 
-        printf("4 %s\n", table);
+        ////printf("4 %s\n", table);
         token = strtok(NULL, " ");
         if (token == NULL)
         {
@@ -1404,14 +1411,14 @@ int checkCommandSelect(char *input, char *table, char *search_column, char *sear
         // WHERE [nama_kolom]=[value];
         if (strcmp(token, "WHERE") == 0)
         {
-            printf("5 %s\n", token);
+            ////printf("5 %s\n", token);
             token = strtok(NULL, " ");
-            printf("6 %s\n", token);
+            ////printf("6 %s\n", token);
             char tmp[100];
             strcpy(tmp, token);
             char *token2 = strtok(tmp, "=");
             strcpy(search_column, token2);
-            printf("7 %s\n", search_column);
+            ////printf("7 %s\n", search_column);
             token2 = strtok(NULL, " ");
 
             strcpy(search_data, token2);
@@ -1425,8 +1432,6 @@ int checkCommandSelect(char *input, char *table, char *search_column, char *sear
             {
                 search_data[strlen(search_data) - 1] = '\0';
             }
-
-            printf("8 %s\n", search_data);
         }
         else
         {
@@ -1441,7 +1446,7 @@ int checkCommandSelect(char *input, char *table, char *search_column, char *sear
     {
         // SELECT
         char *token = strtok(input, " ");
-        printf("1 %s\n", token);
+        ////printf("1 %s\n", token);
         // // SELECT [nama_kolom, … | *] FROM [nama_tabel];
 
         if (token == NULL)
@@ -1466,9 +1471,9 @@ int checkCommandSelect(char *input, char *table, char *search_column, char *sear
             {
                 selectColumnName[i][strlen(selectColumnName[i]) - 1] = '\0';
             }
-            printf("--> %s\n", selectColumnName[i]);
+            ////printf("--> %s\n", selectColumnName[i]);
             token = strtok(NULL, " ");
-            countColumnSelect++;
+            *countColumnSelect = *countColumnSelect + 1;
             i++;
         }
         // FROM
@@ -1479,7 +1484,7 @@ int checkCommandSelect(char *input, char *table, char *search_column, char *sear
             return 0;
         }
         // [table]
-        printf("3 %s\n", token);
+        ////printf("3 %s\n", token);
         token = strtok(NULL, " ");
 
         if (strstr(token, ";"))
@@ -1490,7 +1495,7 @@ int checkCommandSelect(char *input, char *table, char *search_column, char *sear
         {
             strncpy(table, token, strlen(token));
         }
-        printf("4 %s\n", table);
+        ////printf("4 %s\n", table);
         token = strtok(NULL, " ");
         if (token == NULL)
         {
@@ -1500,14 +1505,14 @@ int checkCommandSelect(char *input, char *table, char *search_column, char *sear
         // WHERE [nama_kolom]=[value];
         if (strcmp(token, "WHERE") == 0)
         {
-            printf("5 %s\n", token);
+            ////printf("5 %s\n", token);
             token = strtok(NULL, " ");
-            printf("6 %s\n", token);
+            ////printf("6 %s\n", token);
             char tmp[100];
             strcpy(tmp, token);
             char *token2 = strtok(tmp, "=");
             strcpy(search_column, token2);
-            printf("7 %s\n", search_column);
+            ////printf("7 %s\n", search_column);
             token2 = strtok(NULL, " ");
 
             strcpy(search_data, token2);
@@ -1522,7 +1527,7 @@ int checkCommandSelect(char *input, char *table, char *search_column, char *sear
                 search_data[strlen(search_data) - 1] = '\0';
             }
 
-            printf("8 %s\n", search_data);
+            ////printf("8 %s\n", search_data);
         }
         else
         {
@@ -1542,7 +1547,7 @@ void dropColumnForSelect(char *column_name, int position)
     for (int i = 0; i < count_row; i++)
     {
         strcpy(temp[i], data_in_table[i]);
-        printf("TEMP = > %s\n", temp[i]);
+        ////printf("TEMP = > %s\n", temp[i]);
     }
 
     for (int i = 0; i < count_row; i++)
@@ -1552,10 +1557,10 @@ void dropColumnForSelect(char *column_name, int position)
         int count = 0;
         while (count < count_column)
         {
-            printf("count %d ; position %d\n", count, position);
+            ////printf("count %d ; position %d\n", count, position);
             if (count == position)
             {
-                printf("token -> %s\n", token);
+                ////printf("token -> %s\n", token);
                 token = strtok(NULL, "\t");
                 count++;
                 continue;
@@ -1568,7 +1573,7 @@ void dropColumnForSelect(char *column_name, int position)
                 {
                     strcat(hasil[i], "\t");
                 }
-                printf("token -> %s\n", token);
+                ////printf("token -> %s\n", token);
                 token = strtok(NULL, "\t");
                 count++;
             }
@@ -1576,11 +1581,11 @@ void dropColumnForSelect(char *column_name, int position)
 
         if (!strstr(hasil[i], "\n"))
         {
-            printf("masuk");
+            //printf("masuk");
             strncpy(hasil[i], hasil[i], strlen(hasil[i]) - 1);
             strcat(hasil[i], "\n");
         }
-        printf("Hasil -> %s ---- %d", hasil[i], i);
+        //rintf("Hasil -> %s ---- %d", hasil[i], i);
     }
     for (int i = 0; i < count_row; i++)
     {
@@ -1596,11 +1601,57 @@ void stdoutSelect(int mode)
 {
     char output[2048] = {0};
     int j = 0;
+    int l = 0;
+    char tmp[200][1024] = {0};
+    char tmpcolumn[1024] = {0};
+    char hasilcolumn[1024] = {0};
+    char hasil[200][1024] = {0};
+    for (int i = 0; i < count_row; i++)
+    {
+        strcpy(tmp[i], data_in_table[i]);
+    }
     for (int i = -1; i < count_row; i++)
     {
         if (i == -1)
         {
-            strcat(output, column);
+
+            if (mode == 3 || mode == 4)
+            {
+                strcpy(tmpcolumn, column);
+                char *token = strtok(tmpcolumn, "\t");
+                int j = 0;
+                int k = 0;
+                while (token != NULL)
+                {
+                    if (j != position_column[k])
+                    {
+                        j++;
+                        token = strtok(NULL, "\t");
+                        continue;
+                    }
+                    else
+                    {
+                        strcat(hasilcolumn, token);
+                        if (!strstr(hasilcolumn, "\n"))
+                        {
+                            strcat(hasilcolumn, "\t");
+                        }
+                        j++;
+                        k++;
+                        token = strtok(NULL, "\t");
+                    }
+                }
+                if (!strstr(hasilcolumn, "\n"))
+                {
+                    strcat(hasilcolumn, "\n");
+                }
+
+                strcat(output, hasilcolumn);
+            }
+            else
+            {
+                strcat(output, column);
+            }
         }
         else
         {
@@ -1622,26 +1673,78 @@ void stdoutSelect(int mode)
             }
             if (mode == 3)
             {
-                char tmp[200] = {0};
-                strcpy(tmp, data_in_table[i]);
-                char *token = strtok(tmp, " ");
-                int pengurangan = 0;
-                for (int j = 0; j < count_column; j++)
+                char *token = strtok(tmp[i], "\t");
+                int j = 0;
+                int k = 0;
+                while (token != NULL)
                 {
-
-                    if (j != position_column[j])
+                    if (j != position_column[k])
                     {
-                        dropColumn(j);
+                        j++;
+                        token = strtok(NULL, "\t");
+                        continue;
+                    }
+                    else
+                    {
+                        strcat(hasil[i], token);
+                        if (!strstr(hasil[i], "\n"))
+                        {
+                            strcat(hasil[i], "\t");
+                        }
+                        j++;
+                        k++;
+                        token = strtok(NULL, "\t");
                     }
                 }
-                for (int i = 0; i < count_row; i++)
+                if (!strstr(hasil[i], "\n"))
                 {
-                    printf("%s", data_in_table[i]);
+                    strcat(hasil[i], "\n");
+                }
+                strcat(output, hasil[i]);
+            }
+            if (mode == 4)
+            {
+                char *token = strtok(tmp[i], "\t");
+                int j = 0;
+                int k = 0;
+
+                while (token != NULL)
+                {
+                    if (j != position_column[k])
+                    {
+                        j++;
+                        token = strtok(NULL, "\t");
+                        continue;
+                    }
+                    else
+                    {
+                        strcat(hasil[i], token);
+                        if (!strstr(hasil[i], "\n"))
+                        {
+                            strcat(hasil[i], "\t");
+                        }
+                        j++;
+                        k++;
+                        token = strtok(NULL, "\t");
+                    }
+                }
+                if (!strstr(hasil[i], "\n"))
+                {
+                    strcat(hasil[i], "\n");
+                }
+                if (i == data_exist[l])
+                {
+                    strcat(output, hasil[i]);
+                    l++;
+                }
+                else
+                {
+                    continue;
                 }
             }
         }
     }
-    printf("%s", output);
+    strcpy(message, output);
 }
 
 void selectCommand(int mode)
@@ -1658,6 +1761,10 @@ void selectCommand(int mode)
     {
         stdoutSelect(mode);
     }
+    else if (mode == 4)
+    {
+        stdoutSelect(mode);
+    }
 }
 
 void logging(char *input)
@@ -1669,6 +1776,34 @@ void logging(char *input)
     struct tm tm = *localtime(&t);
     fprintf(f, "%04d-%02d-%02d %02d:%02d:%02d:%s:%s\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec, SESSION_USERNAME, input);
     fclose(f);
+}
+
+void swap(int *xp, int *yp)
+{
+    int temp = *xp;
+    *xp = *yp;
+    *yp = temp;
+}
+
+// Function to perform Selection Sort
+void selectionSort(int arr[], int n)
+{
+    int i, j, min_idx;
+
+    // One by one move boundary of unsorted subarray
+    for (i = 0; i < n - 1; i++)
+    {
+
+        // Find the minimum element in unsorted array
+        min_idx = i;
+        for (j = i + 1; j < n; j++)
+            if (arr[j] < arr[min_idx])
+                min_idx = j;
+
+        // Swap the found minimum element
+        // with the first element
+        swap(&arr[min_idx], &arr[i]);
+    }
 }
 
 int main()
@@ -1711,7 +1846,7 @@ int main()
         }
         if (strncmp(input, "USE", 3) == 0)
         {
-            printf("masuk 4");
+            ////printf("masuk 4");
             char username[100] = {0};
             char database[100] = {0};
             if (checkCommandUseDatabase(input, database))
@@ -1732,7 +1867,7 @@ int main()
                 {
                     char fullpath[500] = {0};
                     sprintf(fullpath, "databases/%s", SESSION_DATABASE);
-                    // printf("%s-----------", fullpath);
+                    // //printf("%s-----------", fullpath);
                     int check = readTableOfDatabase(fullpath, table);
                     if (check == 0)
                     {
@@ -1810,7 +1945,7 @@ int main()
                     // readDatabase
                     readDatabase(SESSION_DATABASE, table);
                     countColumn();
-                    // printf("DEBUG -> %d %d ", count_column, count_row);
+                    // //printf("DEBUG -> %d %d ", count_column, count_row);
                     char fullpath[400];
                     sprintf(fullpath, "databases/%s", SESSION_DATABASE);
                     if (strstr(column, column_name))
@@ -1821,17 +1956,17 @@ int main()
                             // menemukan posisi kolom
 
                             int position = positionCloumn(column_name);
-                            // printf("DEBUG -> %d %d %d", count_column, count_row, position);
+                            // //printf("DEBUG -> %d %d %d", count_column, count_row, position);
                             // melakukan write
                             dropColumn(position);
                             dropColumn2(position);
                             // char fullpath[400];
                             sprintf(fullpath, "databases/%s/%s", SESSION_DATABASE, table);
-                            // printf("fullpath -> %s", fullpath);
+                            // //printf("fullpath -> %s", fullpath);
                             writeTable(fullpath);
                             strcpy(message, "Success\n");
 
-                            // printf("tahap pengembangan -> %d", position);
+                            // //printf("tahap pengembangan -> %d", position);
                         }
                         else
                         {
@@ -1868,10 +2003,10 @@ int main()
                     {
                         readDatabase(SESSION_DATABASE, table);
                         countColumn();
-                        // printf("masuk %d %d", total - 1, count_column);
+                        // //printf("masuk %d %d", total - 1, count_column);
                         if (count_column == total - 1)
                         {
-                            // printf("masuk");
+                            // //printf("masuk");
 
                             insert(column_name, table);
                         }
@@ -1912,7 +2047,7 @@ int main()
                     readDatabase(SESSION_DATABASE, table);
                     countColumn();
                     int position = positionCloumn(column_name);
-                    //printf("\nDEBUG -> %d %d %d\n", count_column, count_row, position);
+                    ////printf("\nDEBUG -> %d %d %d\n", count_column, count_row, position);
                     if (strstr(column, column_name))
                     {
                         if (readTableOfDatabase(fullpath2, table))
@@ -1923,7 +2058,7 @@ int main()
                             }
 
                             checkDataExist(data_column, fullpath, position);
-                            //printf("data exist %d ", count_data_exist);
+                            ////printf("data exist %d ", count_data_exist);
                             if (count_data_exist != 0)
                             {
                                 deleteData(mode, position, fullpath);
@@ -1973,8 +2108,8 @@ int main()
                         sprintf(fullpath, "databases/%s", SESSION_DATABASE);
                         if (readTableOfDatabase(fullpath, table))
                         {
-                            //printf("masuk %d %d", total - 1, count_column);
-                            //printf("masuk");
+                            ////printf("masuk %d %d", total - 1, count_column);
+                            ////printf("masuk");
                             int position = positionCloumn(column_name);
                             int position_search = positionCloumn(search_column);
                             char fullpath[400];
@@ -1985,8 +2120,8 @@ int main()
                             }
 
                             checkDataExist(search_data, fullpath, position_search);
-                            //printf("\nDEBUG -> %d %d %d %d\n", count_column, count_row, position, count_data_exist);
-                            //printf("\n DEBUG %d", data_exist[0]);
+                            ////printf("\nDEBUG -> %d %d %d %d\n", count_column, count_row, position, count_data_exist);
+                            ////printf("\n DEBUG %d", data_exist[0]);
                             updateData(mode, position, data_column, search_column, search_data);
                             memset(data_exist, -2, sizeof(data_exist));
                             writeTable(fullpath);
@@ -2021,22 +2156,71 @@ int main()
                 {
                     readDatabase(SESSION_DATABASE, table);
                     countColumn();
-                    int position_search = positionCloumn(search_column);
+                    int check = 1;
                     for (int i = 0; i < countColumnSelect; i++)
                     {
-                        position_column[i] = positionCloumn(selectColumnName[i]);
+                        if (!strstr(column, selectColumnName[i]))
+                        {
+                            check = 0;
+                        }
                     }
-
-                    char fullpath[400];
-                    printf("FULLPATH %s", fullpath);
-                    sprintf(fullpath, "databases/%s/%s", SESSION_DATABASE, table);
-                    if (position_search + 1 == count_column)
+                    if (check)
                     {
-                        strcat(search_data, "\n");
+                        int check2 = 1;
+                        if (mode == 2 || mode == 4)
+                        {
+                            if (!strstr(column, search_column))
+                            {
+                                check2 = 0;
+                            }
+                        }
+                        if (check2)
+                        {
+                            char fullpath[200];
+                            sprintf(fullpath, "databases/%s", SESSION_DATABASE);
+                            ////printf("-------%s-----", fullpath);
+                            if (readTableOfDatabase(fullpath, table))
+                            {
+                                ////printf("Count -> %d\n", countColumnSelect);
+                                int position_search = positionCloumn(search_column);
+
+                                for (int i = 0; i < countColumnSelect; i++)
+                                {
+                                    position_column[i] = positionCloumn(selectColumnName[i]);
+                                    ////printf("\n Tes %s -   > %d\n", selectColumnName[i], position_column[i]);
+                                }
+
+                                selectionSort(position_column, countColumnSelect);
+                                for (int i = 0; i < countColumnSelect; i++)
+                                {
+                                    ////printf("\n Tes %s -   > %d\n", selectColumnName[i], position_column[i]);
+                                }
+                                char fullpath[400];
+                                ////printf("FULLPATH %s", fullpath);
+                                sprintf(fullpath, "databases/%s/%s", SESSION_DATABASE, table);
+                                if (position_search + 1 == count_column)
+                                {
+                                    strcat(search_data, "\n");
+                                }
+
+                                checkDataExist(search_data, fullpath, position_search);
+                                selectCommand(mode);
+                            }
+                            else
+                            {
+                                strcpy(message, "Table Not Found\n");
+                            }
+                        }
+                        else
+                        {
+                            strcpy(message, "Column Not Found\n");
+                        }
                     }
 
-                    checkDataExist(search_data, fullpath, position_search);
-                    selectCommand(mode);
+                    else
+                    {
+                        strcpy(message, "Column Not Found\n");
+                    }
                 }
             }
             else
@@ -2044,8 +2228,9 @@ int main()
                 strcpy(message, "Please Spesify Your Database\n");
             }
         }
-
+        reset();
         printf("%s", message);
+        strcpy(message, "");
     }
     return 0;
 }
