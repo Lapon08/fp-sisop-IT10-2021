@@ -18,4 +18,4 @@ timestamp(yyyy-mm-dd hh:mm:ss):username:command
 ```
 
 ## Penyelesaian
-![Gambar](soalfp/soalfp-logging.png)
+![Gambar](database/soalfp-logging.jpeg)
