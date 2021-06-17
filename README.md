@@ -16,3 +16,6 @@ timestamp(yyyy-mm-dd hh:mm:ss):username:command
 
 2021-05-19 02:05:15:jack:SELECT FROM table1
 ```
+
+## Penyelesaian
+![Gambar](soalfp/soalfp-logging.png)
