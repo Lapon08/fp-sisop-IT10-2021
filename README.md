@@ -12,10 +12,15 @@ Setiap command yang dipakai harus dilakukan logging ke suatu file dengan format.
 timestamp(yyyy-mm-dd hh:mm:ss):username:command
 ```
 
-```# Contoh
+```
+# Contoh
 
 2021-05-19 02:05:15:jack:SELECT FROM table1
 ```
 
 ## Penyelesaian
+Terletak ada di folder database dengan nama filenya server.c. lalu dicari dengan nama fungsi nya logging()
+
+Maka akan muncul hasil seperti gambar dibawah ini
+
 ![Gambar](database/soalfp-logging.png)
