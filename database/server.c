@@ -1852,6 +1852,7 @@ int checkDatabase()
 
 int main(int argc, char const *argv[])
 {
+    
     char kirim[1024] = {0};
     char terima[1024] = {0};
     int server_fd, new_socket, valread;
@@ -1896,6 +1897,7 @@ int main(int argc, char const *argv[])
         }
         // login
         umask(0);
+        
         int checkyuk = checkDatabase();
         if (!checkyuk)
         {
@@ -1934,6 +1936,7 @@ int main(int argc, char const *argv[])
         }
         while (otentikasi)
         {
+            strcpy(message,"Input Your Command\n");
             read(new_socket, terima, 1024);
             char input[1024];
             strcpy(input, terima);

@@ -82,6 +82,11 @@ int main(int argc, char const *argv[])
     {
         printf(">> ");
         gets(kirim);
+        if (strcmp(kirim,"") ==0)
+        {
+            strcpy(kirim,"dummy");
+        }
+        
         send(sock, kirim, strlen(kirim), 0);
         read(sock, terima, 1024);
         printf("%s", terima);
