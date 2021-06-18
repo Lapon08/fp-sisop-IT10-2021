@@ -9,18 +9,19 @@
 
 int main(int argc, char const *argv[])
 {
+    // ./client_databaseku -u jack -p jack123 database1
     char kirim[1024] = {0};
     char terima[1024] = {0};
     if (!getuid() == 0)
     {
-        if (argc != 5)
+        if (argc != 6)
         {
-            printf("<USAGE>\n./[program_client_database] -u [username] -p [password]\n");
+            printf("<USAGE>\n./[program_client_database] -u [username] -p [password] [database]\n");
             return 1;
         }
-        if ((strcmp(argv[1], "-u") != 0 || strcmp(argv[3], "-p") != 0))
+        if ((strcmp(argv[1], "-u") != 0 || strcmp(argv[3], "-p") != 0 ))
         {
-            printf("<USAGE>\n./[program_client_database] -u [username] -p [password]\n");
+            printf("<USAGE>\n./[program_client_database] -u [username] -p [password] [database]\n");
             return 1;
         }
     }
@@ -65,7 +66,7 @@ int main(int argc, char const *argv[])
     
     send(sock, kirim, strlen(kirim), 0);
     read(sock, terima, 1024);
-    printf("%s", terima);
+    // printf("%s", terima);
     if (strcmp(terima, "Login Successfull\n") == 0)
     {
         otentikasi = 1;
@@ -80,18 +81,14 @@ int main(int argc, char const *argv[])
 
     while (otentikasi)
     {
-        printf(">> ");
-        gets(kirim);
-        send(sock, kirim, strlen(kirim), 0);
+        char sendMessage[1024] = {0};
+        sprintf(sendMessage,"DUMP %s\n",argv[5]);
+        send(sock, sendMessage, strlen(sendMessage), 0);
         read(sock, terima, 1024);
-        printf("%s", terima);
-
-        if (strcmp(terima, "Good Bye\n") == 0)
-        {
-            return 0;
-        }
-        memset(kirim, 0, 1024);
+        printf("%s",terima);
+        memset(sendMessage, 0, 1024);
         memset(terima, 0, 1024);
+        return 0;
     }
 
     return 0;

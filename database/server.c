@@ -1095,7 +1095,7 @@ void deleteData(int mode, int position, char *fullpath)
             strcpy(message, "Error\n");
             return;
         }
-        fprintf(fptr,"%s", column);
+        fprintf(fptr, "%s", column);
         strcpy(message, "Success\n");
         fclose(fptr);
     }
@@ -1839,8 +1839,10 @@ int checkDatabase()
         strcpy(message, "Could not open current directoryn");
         return 0;
     }
-    while ((de = readdir(dr)) != NULL){
-        if( strcmp(de->d_name,"databases") ==0){
+    while ((de = readdir(dr)) != NULL)
+    {
+        if (strcmp(de->d_name, "databases") == 0)
+        {
             return 1;
         }
     }
@@ -1895,7 +1897,7 @@ int main(int argc, char const *argv[])
         // login
         umask(0);
         int checkyuk = checkDatabase();
-        if (!checkDatabase)
+        if (!checkyuk)
         {
             initDatabase();
         }
@@ -2360,10 +2362,157 @@ int main(int argc, char const *argv[])
                 strcpy(kirim, "Good Bye\n");
                 send(new_socket, kirim, strlen(kirim), 0);
                 strcpy(message, "");
+                strcpy(SESSION_DATABASE, "");
+                strcpy(SESSION_USERNAME, "");
                 memset(kirim, 0, 1024);
                 memset(terima, 0, 1024);
                 break;
             }
+            if (strncmp(input, "DUMP", 4) == 0)
+            {
+                char database[100] = {0};
+                char *token = strtok(input, " ");
+                token = strtok(NULL, " ");
+                strcpy(database, token);
+                useDatabase(database);
+
+                if (strcmp(token, "*") == 0)
+                {
+                }
+                else
+                {
+                    if (strcmp(SESSION_DATABASE, "") != 0)
+                    {
+                        strcpy(message, "");
+                        struct dirent *de;
+                        char path[100] = {0};
+                        sprintf(path, "databases/%s", SESSION_DATABASE);
+
+                        DIR *dr = opendir(path);
+                        // nama tabel
+                        while ((de = readdir(dr)) != NULL)
+                        {
+                            char columnRealibility[100] = {0};
+
+                            int tipedata[100] = {0};
+
+                            if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+
+                                char table[100] = {0};
+                                strcpy(table, de->d_name);
+                                readDatabase(SESSION_DATABASE, table);
+                                char strcolumn[100] = {0};
+                                strcpy(strcolumn, column);
+                                strtok(strcolumn, "\n");
+                                char *token = strtok(strcolumn, "\t");
+
+                                int i = 0;
+                                while (token != NULL)
+                                {
+                                    char tmp[1024] = {0};
+                                    strcpy(tmp, token);
+                                    if (strstr(token, "string"))
+                                    {
+                                        tipedata[i] = 0;
+                                        strncat(columnRealibility, tmp, strlen(tmp) - 7);
+                                        strcat(columnRealibility, " ");
+                                        strcat(columnRealibility, "string");
+                                        strcat(columnRealibility, ",");
+                                        strcat(columnRealibility, " ");
+                                    }
+                                    else
+                                    {
+                                        tipedata[i] = 1;
+                                        strncat(columnRealibility, tmp, strlen(tmp) - 4);
+                                        strcat(columnRealibility, " ");
+                                        strcat(columnRealibility, "int");
+                                        strcat(columnRealibility, ",");
+                                        strcat(columnRealibility, " ");
+                                    }
+                                    token = strtok(NULL, "\t");
+                                    i++;
+                                }
+
+                                columnRealibility[strlen(columnRealibility) - 2] = '\0';
+                                // DROP TABLE table1;
+                                // CREATE TABLE table1 (kolom1 string, kolom2 int, kolom3 string, kolom4 int);
+                                // INSERT INTO table1 (‘abc’, 1, ‘bcd’, 2);
+                                char drop[100] = {0};
+                                char create[120] = {0};
+                                sprintf(drop, "DROP TABLE %s;\n", table);
+                                sprintf(create, "CREATE TABLE %s (%s);\n\n", table, columnRealibility);
+                                strcat(message, drop);
+                                strcat(message, create);
+                                //printf("-----%s----\n", columnRealibility);
+                                char temp[200][1024] = {0};
+                                for (int i = 0; i < count_row; i++)
+                                {
+                                    strcpy(temp[i], data_in_table[i]);
+                                    // ////printf("TEMP = > %s\n", temp[i]);
+                                }
+
+                                // INSERT INTO table1 (‘abc’, 1, ‘bcd’, 2);
+                                for (int i = 0; i < count_row; i++)
+                                {
+                                    char dataRealibility[1024] = {0};
+                                    strtok(temp[i], "\n");
+                                    char *token2 = strtok(temp[i], "\t");
+                                    // Returns first token
+
+                                    int j = 0;
+                                    while (token2 != NULL)
+                                    {
+                                        char tmp[100] = {0};
+                                        strcpy(tmp, token2);
+                                        if (tipedata[j] == 0)
+                                        {
+
+                                            strcat(dataRealibility, "'");
+                                            strcat(dataRealibility, tmp);
+                                            strcat(dataRealibility, "'");
+                                            strcat(dataRealibility, ",");
+                                            strcat(dataRealibility, " ");
+                                        }
+                                        else
+                                        {
+                                            strcat(dataRealibility, tmp);
+                                            strcat(dataRealibility, ",");
+                                            strcat(dataRealibility, " ");
+                                        }
+                                        token2 = strtok(NULL, "\t");
+                                        j++;
+                                    }
+                                    dataRealibility[strlen(dataRealibility) - 2] = '\0';
+                                    // printf("-----%s----\n", dataRealibility);
+                                    char insert[1024] = {0};
+                                    // INSERT INTO table1 (‘abc’, 1, ‘bcd’, 2);
+                                    sprintf(insert, "INSERT INTO %s (%s);\n", table, dataRealibility);
+                                    strcat(message, insert);
+                                }
+                            }
+
+                            strcat(message,"\n");
+                        }
+                        closedir(dr);
+                    }
+                    reset();
+                    strcpy(kirim, message);
+                    send(new_socket, kirim, strlen(kirim), 0);
+                    strcpy(message, "");
+                    strcpy(SESSION_DATABASE, "");
+                    strcpy(SESSION_USERNAME, "");
+                    memset(kirim, 0, 1024);
+                    memset(terima, 0, 1024);
+                    break;
+                }
+                
+            }
+
             reset();
             strcpy(kirim, message);
             send(new_socket, kirim, strlen(kirim), 0);

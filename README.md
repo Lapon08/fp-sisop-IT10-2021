@@ -177,202 +177,6 @@ void addUser(char *namaUser, char *passwordUser)
     memset(data_exist, 0, sizeof(data_exist));
 }
 ```
-## Authorisasi
-### Soal
-Untuk dapat mengakses database yang dia punya permission dengan command. Pembuatan tabel dan semua DML butuh untuk mengakses database terlebih dahulu.
-```
-# Format
-
-USE [nama_database];
-
-# Contoh
-
-USE database1;
-```
-### Penyelesaian
-Pada fungsi main apabila input client diawali dengan "USE" maka akan memanggil fungsi checkCommandUseDatabase() untuk mengecek apakah command sudah benar. Setelah selesai mengecek command dilanjutkan dengan memanggil fungsi useDatabase().
-```
-if (strncmp(input, "USE", 3) == 0)
-    {
-        ////printf("masuk 4");
-        char username[100] = {0};
-        char database[100] = {0};
-        if (checkCommandUseDatabase(input, database))
-        {
-            useDatabase(database);
-        }
-    }
-```
-
-Pada fungsi checkCommandUseDatabase() akan melakukan strtok dengan delimiter " " dan kemudian didapatkan [nama_database]
-```
-int checkCommandUseDatabase(char *command, char *database)
-{
-    // USE [nama_database];
-    if (strcmp(&command[strlen(command) - 1], ";") != 0)
-    {
-        strcpy(message, "Invalid Syntax\n");
-
-        return 0;
-    }
-    char *token = strtok(command, " ");
-    if (token == NULL)
-    {
-        strcpy(message, "Invalid Syntax\n");
-
-        return 0;
-    }
-    token = strtok(NULL, " ");
-    // [nama_database]
-    if (token == NULL)
-    {
-        strcpy(message, "Invalid Syntax\n");
-
-        return 0;
-    }
-    strncpy(database, token, strlen(token) - 1);
-    return 1;
-}
-```
-
-Pada fungsi useDatabase() akan mengecek apakah user dan nama database sudah ada pada tabel permission.table, apabila ada akan memberikan pesan "Success" jika tidak ada pada tabel permission.table akan memberikan pesan bahwa database tidak ditemukan atau user tidak diberikan permission.
-```
-void useDatabase(char *database)
-{
-    char data[300] = {0};
-    sprintf(data, "%s\t%s\n", SESSION_USERNAME, database);
-    int check = checkDataExist(data, "databases/init/permission.table", 69);
-    // //printf("data -> %s", data);
-    if (check)
-    {
-        strcpy(SESSION_DATABASE, database);
-        strcpy(message, "Success\n");
-    }
-    else
-    {
-        strcpy(message, "Database Not Found / You Not have Permission\n");
-    }
-    memset(data_exist, 0, sizeof(data_exist));
-}
-```
-
-### Soal
-Yang bisa memberikan permission atas database untuk suatu user hanya root.
-```
-# Format
-
-GRANT PERMISSION [nama_database] INTO [nama_user];
-
-# Contoh
-
-GRANT PERMISSION database1 INTO user1;
-
-```
-User hanya bisa mengakses database dimana dia diberi permission untuk database tersebut.
-
-### Penyelesaian
-Pada fungsi main apabila input client diawali dengan "GRANT PERMISSION" maka akan memanggil fungsi checkCommandGrantDatabase() untuk mengecek apakah command sudah benar. Setelah selesai mengecek command dilanjutkan dengan memanggil fungsi grantDatabase().
-```
-if (strncmp(input, "GRANT PERMISSION", 16) == 0)
-    {
-        char username[100] = {0};
-        char database[100] = {0};
-        if (checkCommandGrantDatabase(input, username, database))
-        {
-            grantDatabase(username, database);
-        }
-    }
-```
-
-Pada fungsi checkCommandUseDatabase() akan melakukan strtok dengan delimiter " " dan kemudian didapatkan [nama_database] dan [nama_user].
-```
-int checkCommandGrantDatabase(char *command, char *username, char *database)
-{
-    // GRANT PERMISSION [nama_database] INTO [nama_user];
-    if (strcmp(&command[strlen(command) - 1], ";") != 0)
-    {
-        strcpy(message, "Invalid Syntax\n");
-
-        return 0;
-    }
-    char *token = strtok(command, " ");
-    token = strtok(NULL, " ");
-    token = strtok(NULL, " ");
-    // [nama_database]
-    if (token == NULL)
-    {
-        strcpy(message, "Invalid Syntax\n");
-
-        return 0;
-    }
-    strcpy(database, token);
-    token = strtok(NULL, " ");
-    // INTO
-    if (token == NULL)
-    {
-        strcpy(message, "Invalid Syntax\n");
-
-        return 0;
-    }
-    if (strcmp(token, "INTO") != 0)
-    {
-        strcpy(message, "Invalid Syntax\n");
-
-        return 0;
-    }
-
-    token = strtok(NULL, " ");
-    // [nama_user]
-    if (token == NULL)
-    {
-        strcpy(message, "Invalid Syntax\n");
-
-        return 0;
-    }
-    strncpy(username, token, strlen(token) - 1);
-    // //printf("DEBUG -> %s\t%s\n", username, database);
-    return 1;
-}
-```
-Pada fungsi grantDatabase() akan mengecek apakah user merupakan user root dengan menggunakan getuid() == 0. Selanjutnya mengecek apakah username dan database sudah ada pada tabel permission.table, jika tidak ada dengan membuka filenya menggunakan fopen() dan mode a+ untuk melakukan append.
-```
-void grantDatabase(char *username, char *database)
-{
-    if (getuid() == 0)
-    {
-        int check = 0;
-        char data[1024] = {0};
-        sprintf(data, "%s\t%s\n", username, database);
-        check = checkDataExist(data, "databases/init/permission.table", 69);
-        if (check == 0)
-        {
-            FILE *fptr;
-            fptr = fopen("databases/init/permission.table", "a+");
-            if (fptr == NULL)
-            {
-                strcpy(message, "Error\n");
-
-                return;
-            }
-            fprintf(fptr, "%s\t%s\n", username, database);
-            memset(data_exist, 0, sizeof(data_exist));
-            fclose(fptr);
-            strcpy(message, "Success\n");
-        }
-        else
-        {
-            strcpy(message, "the user already has access to the database\n");
-            memset(data_exist, 0, sizeof(data_exist));
-            return;
-        }
-    }
-    else
-    {
-        strcpy(message, "Sorry, You are not root\n");
-    }
-}
-```
-
 ## Data Definition Language
 ### Soal
 Input penamaan database, tabel, dan kolom hanya angka dan huruf.
@@ -1835,7 +1639,175 @@ void logging(char *input)
 }
 ```
 
-Maka akan muncul hasil seperti gambar dibawah ini
+## Reliability
+### Soal
+Harus membuat suatu program terpisah untuk dump database ke command-command yang akan di print ke layar. Untuk memasukkan ke file, gunakan redirection. Program ini tentunya harus melalui proses autentikasi terlebih dahulu. Ini sampai database level saja, tidak perlu sampai tabel. 
+```
+# Format
+
+./[program_dump_database] -u [username] -p [password] [nama_database]
+
+
+# Contoh
+
+./databasedump -u jack -p jack123 database1 > database1.backup
+
+```
+Contoh hasil isi file database1.backup:
+```
+DROP TABLE table1;
+CREATE TABLE table1 (kolom1 string, kolom2 int, kolom3 string, kolom4 int);
+
+INSERT INTO table1 (‘abc’, 1, ‘bcd’, 2);
+INSERT INTO table1 (‘abc’, 1, ‘bcd’, 2);
+INSERT INTO table1 (‘abc’, 1, ‘bcd’, 2);
+INSERT INTO table1 (‘abc’, 1, ‘bcd’, 2);
+
+DROP TABLE table2;
+CREATE TABLE table2 (kolom1 string, kolom2 int, kolom3 string, kolom4 int);
+
+INSERT INTO table2 (‘abc’, 1, ‘bcd’, 2);
+INSERT INTO table2 (‘abc’, 1, ‘bcd’, 2);
+INSERT INTO table2 (‘abc’, 1, ‘bcd’, 2);
+INSERT INTO table2 (‘abc’, 1, ‘bcd’, 2);
+
+```
+### Penyelesian
+Hal yang dilakukan adalah melakukan read data dari tabel database yang bersangkutan, Seluruh data per baris dimasukkan ke sebuah array yang dapat diakses dimanapun. Setelah itu mengekstract seluruh data yang ada conyohnya kolom yang awalnya ```kolom1|string\tkolom2|int\n``` Hal ini akan diekstract menjadi ```kolom1 string, kolom2 int```. Setlah itu tinggal mengeluarkannya sesuai format dump yang ada.
+```
+if (strncmp(input, "DUMP", 4) == 0)
+{
+    char database[100] = {0};
+    char *token = strtok(input, " ");
+    token = strtok(NULL, " ");
+    strcpy(database, token);
+    useDatabase(database);
+    if (strcmp(token, "*") == 0)
+    {
+        /* code */
+    }
+    else
+    {
+        if (strcmp(SESSION_DATABASE, "") != 0)
+        {
+            strcpy(message, "");
+            struct dirent *de;
+            char path[100] = {0};
+            sprintf(path, "databases/%s", SESSION_DATABASE);
+            DIR *dr = opendir(path);
+            // nama tabel
+            while ((de = readdir(dr)) != NULL)
+            {
+                char columnRealibility[100] = {0};
+                int tipedata[100] = {0};
+                if (strcmp(de->d_name, ".") == 0 || strcmp(de->d_name, "..") == 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    char table[100] = {0};
+                    strcpy(table, de->d_name);
+                    readDatabase(SESSION_DATABASE, table);
+                    char strcolumn[100] = {0};
+                    strcpy(strcolumn, column);
+                    strtok(strcolumn, "\n");
+                    char *token = strtok(strcolumn, "\t");
+                    int i = 0;
+                    while (token != NULL)
+                    {
+                        char tmp[1024] = {0};
+                        strcpy(tmp, token);
+                        if (strstr(token, "string"))
+                        {
+                            tipedata[i] = 0;
+                            strncat(columnRealibility, tmp, strlen(tmp) - 7);
+                            strcat(columnRealibility, " ");
+                            strcat(columnRealibility, "string");
+                            strcat(columnRealibility, ",");
+                            strcat(columnRealibility, " ");
+                        }
+                        else
+                        {
+                            tipedata[i] = 1;
+                            strncat(columnRealibility, tmp, strlen(tmp) - 4);
+                            strcat(columnRealibility, " ");
+                            strcat(columnRealibility, "int");
+                            strcat(columnRealibility, ",");
+                            strcat(columnRealibility, " ");
+                        }
+                        token = strtok(NULL, "\t");
+                        i++;
+                    }
+                    columnRealibility[strlen(columnRealibility) - 2] = '\0';
+                    // DROP TABLE table1;
+                    // CREATE TABLE table1 (kolom1 string, kolom2 int, kolom3 string, kolom4 int);
+                    // INSERT INTO table1 (‘abc’, 1, ‘bcd’, 2);
+                    char drop[100] = {0};
+                    char create[120] = {0};
+                    sprintf(drop, "DROP TABLE %s;\n", table);
+                    sprintf(create, "CREATE TABLE %s (%s);\n", table, columnRealibility);
+                    strcat(message, drop);
+                    strcat(message, create);
+                    //printf("-----%s----\n", columnRealibility);
+                    char temp[200][1024] = {0};
+                    for (int i = 0; i < count_row; i++)
+                    {
+                        strcpy(temp[i], data_in_table[i]);
+                        // ////printf("TEMP = > %s\n", temp[i]);
+                    }
+                    // INSERT INTO table1 (‘abc’, 1, ‘bcd’, 2);
+                    for (int i = 0; i < count_row; i++)
+                    {
+                        char dataRealibility[1024] = {0};
+                        strtok(temp[i], "\n");
+                        char *token2 = strtok(temp[i], "\t");
+                        // Returns first token
+                        int j = 0;
+                        while (token2 != NULL)
+                        {
+                            char tmp[100] = {0};
+                            strcpy(tmp, token2);
+                            if (tipedata[j] == 0)
+                            {
+                                strcat(dataRealibility, "'");
+                                strcat(dataRealibility, tmp);
+                                strcat(dataRealibility, "'");
+                                strcat(dataRealibility, ",");
+                                strcat(dataRealibility, " ");
+                            }
+                            else
+                            {
+                                strcat(dataRealibility, tmp);
+                                strcat(dataRealibility, ",");
+                                strcat(dataRealibility, " ");
+                            }
+                            token2 = strtok(NULL, "\t");
+                            j++;
+                        }
+                        dataRealibility[strlen(dataRealibility) - 2] = '\0';
+                        // printf("-----%s----\n", dataRealibility);
+                        char insert[1024] = {0};
+                        // INSERT INTO table1 (‘abc’, 1, ‘bcd’, 2);
+                        sprintf(insert, "INSERT INTO %s (%s);\n", table, dataRealibility);
+                        strcat(message, insert);
+                    }
+                }
+                closedir(dr);
+            }
+        }
+    }
+    reset();
+    strcpy(kirim, message);
+    send(new_socket, kirim, strlen(kirim), 0);
+    strcpy(message, "");
+    strcpy(SESSION_DATABASE, "");
+    strcpy(SESSION_USERNAME, "");
+    memset(kirim, 0, 1024);
+    memset(terima, 0, 1024);
+    break;
+}
+```
 
 ## Screenshot
 
@@ -1884,5 +1856,9 @@ Delete
 Logging
 
 ![Gambar](gambar/soalfp-logging.png)
+
+Reliability
+
+![Gambar](gambar/reliability.png)
 ## Kendala
 Kendala yang kita alami adalah tidak ada. Hanya waktu pengerjaan yang kurang saja karena laporannya juga harus selesai sama dengan kodingannya.
