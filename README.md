@@ -177,6 +177,202 @@ void addUser(char *namaUser, char *passwordUser)
     memset(data_exist, 0, sizeof(data_exist));
 }
 ```
+## Authorisasi
+### Soal
+Untuk dapat mengakses database yang dia punya permission dengan command. Pembuatan tabel dan semua DML butuh untuk mengakses database terlebih dahulu.
+```
+# Format
+
+USE [nama_database];
+
+# Contoh
+
+USE database1;
+```
+### Penyelesaian
+Pada fungsi main apabila input client diawali dengan "USE" maka akan memanggil fungsi checkCommandUseDatabase() untuk mengecek apakah command sudah benar. Setelah selesai mengecek command dilanjutkan dengan memanggil fungsi useDatabase().
+```
+if (strncmp(input, "USE", 3) == 0)
+    {
+        ////printf("masuk 4");
+        char username[100] = {0};
+        char database[100] = {0};
+        if (checkCommandUseDatabase(input, database))
+        {
+            useDatabase(database);
+        }
+    }
+```
+
+Pada fungsi checkCommandUseDatabase() akan melakukan strtok dengan delimiter " " dan kemudian didapatkan [nama_database]
+```
+int checkCommandUseDatabase(char *command, char *database)
+{
+    // USE [nama_database];
+    if (strcmp(&command[strlen(command) - 1], ";") != 0)
+    {
+        strcpy(message, "Invalid Syntax\n");
+
+        return 0;
+    }
+    char *token = strtok(command, " ");
+    if (token == NULL)
+    {
+        strcpy(message, "Invalid Syntax\n");
+
+        return 0;
+    }
+    token = strtok(NULL, " ");
+    // [nama_database]
+    if (token == NULL)
+    {
+        strcpy(message, "Invalid Syntax\n");
+
+        return 0;
+    }
+    strncpy(database, token, strlen(token) - 1);
+    return 1;
+}
+```
+
+Pada fungsi useDatabase() akan mengecek apakah user dan nama database sudah ada pada tabel permission.table, apabila ada akan memberikan pesan "Success" jika tidak ada pada tabel permission.table akan memberikan pesan bahwa database tidak ditemukan atau user tidak diberikan permission.
+```
+void useDatabase(char *database)
+{
+    char data[300] = {0};
+    sprintf(data, "%s\t%s\n", SESSION_USERNAME, database);
+    int check = checkDataExist(data, "databases/init/permission.table", 69);
+    // //printf("data -> %s", data);
+    if (check)
+    {
+        strcpy(SESSION_DATABASE, database);
+        strcpy(message, "Success\n");
+    }
+    else
+    {
+        strcpy(message, "Database Not Found / You Not have Permission\n");
+    }
+    memset(data_exist, 0, sizeof(data_exist));
+}
+```
+
+### Soal
+Yang bisa memberikan permission atas database untuk suatu user hanya root.
+```
+# Format
+
+GRANT PERMISSION [nama_database] INTO [nama_user];
+
+# Contoh
+
+GRANT PERMISSION database1 INTO user1;
+
+```
+User hanya bisa mengakses database dimana dia diberi permission untuk database tersebut.
+
+### Penyelesaian
+Pada fungsi main apabila input client diawali dengan "GRANT PERMISSION" maka akan memanggil fungsi checkCommandGrantDatabase() untuk mengecek apakah command sudah benar. Setelah selesai mengecek command dilanjutkan dengan memanggil fungsi grantDatabase().
+```
+if (strncmp(input, "GRANT PERMISSION", 16) == 0)
+    {
+        char username[100] = {0};
+        char database[100] = {0};
+        if (checkCommandGrantDatabase(input, username, database))
+        {
+            grantDatabase(username, database);
+        }
+    }
+```
+
+Pada fungsi checkCommandUseDatabase() akan melakukan strtok dengan delimiter " " dan kemudian didapatkan [nama_database] dan [nama_user].
+```
+int checkCommandGrantDatabase(char *command, char *username, char *database)
+{
+    // GRANT PERMISSION [nama_database] INTO [nama_user];
+    if (strcmp(&command[strlen(command) - 1], ";") != 0)
+    {
+        strcpy(message, "Invalid Syntax\n");
+
+        return 0;
+    }
+    char *token = strtok(command, " ");
+    token = strtok(NULL, " ");
+    token = strtok(NULL, " ");
+    // [nama_database]
+    if (token == NULL)
+    {
+        strcpy(message, "Invalid Syntax\n");
+
+        return 0;
+    }
+    strcpy(database, token);
+    token = strtok(NULL, " ");
+    // INTO
+    if (token == NULL)
+    {
+        strcpy(message, "Invalid Syntax\n");
+
+        return 0;
+    }
+    if (strcmp(token, "INTO") != 0)
+    {
+        strcpy(message, "Invalid Syntax\n");
+
+        return 0;
+    }
+
+    token = strtok(NULL, " ");
+    // [nama_user]
+    if (token == NULL)
+    {
+        strcpy(message, "Invalid Syntax\n");
+
+        return 0;
+    }
+    strncpy(username, token, strlen(token) - 1);
+    // //printf("DEBUG -> %s\t%s\n", username, database);
+    return 1;
+}
+```
+Pada fungsi grantDatabase() akan mengecek apakah user merupakan user root dengan menggunakan getuid() == 0. Selanjutnya mengecek apakah username dan database sudah ada pada tabel permission.table, jika tidak ada dengan membuka filenya menggunakan fopen() dan mode a+ untuk melakukan append.
+```
+void grantDatabase(char *username, char *database)
+{
+    if (getuid() == 0)
+    {
+        int check = 0;
+        char data[1024] = {0};
+        sprintf(data, "%s\t%s\n", username, database);
+        check = checkDataExist(data, "databases/init/permission.table", 69);
+        if (check == 0)
+        {
+            FILE *fptr;
+            fptr = fopen("databases/init/permission.table", "a+");
+            if (fptr == NULL)
+            {
+                strcpy(message, "Error\n");
+
+                return;
+            }
+            fprintf(fptr, "%s\t%s\n", username, database);
+            memset(data_exist, 0, sizeof(data_exist));
+            fclose(fptr);
+            strcpy(message, "Success\n");
+        }
+        else
+        {
+            strcpy(message, "the user already has access to the database\n");
+            memset(data_exist, 0, sizeof(data_exist));
+            return;
+        }
+    }
+    else
+    {
+        strcpy(message, "Sorry, You are not root\n");
+    }
+}
+```
+
 ## Data Definition Language
 ### Soal
 Input penamaan database, tabel, dan kolom hanya angka dan huruf.
